@@ -13,4 +13,5 @@ let data = Mock.mock({
   }]
 })
 
+
 Mock.mock('/data/index', 'post', data) // 根据数据模板生成模拟数据

@@ -37,7 +37,7 @@
             <el-button type="success">查询</el-button>
             <el-button>清空</el-button>
           </div>
-          <el-button type="success">新增</el-button>
+          <el-button type="success" @click="showDialog">新增</el-button>
         </div>
         <!-- 表格上面部分 -->
         <div class="table-handle">
@@ -99,14 +99,18 @@
         </div>
       </div>
     </div>
-    <addMember :show.sync='showAdd'></addMember>
+    <addMember
+      :centerDialogVisible="centerDialogVisible"
+      @update="updateVisible"
+      @senData="acceptData"
+    ></addMember>
   </div>
 </template>
 
 <script>
 import theHeader from "../components/Header";
 import addMember from "../components/AddMember";
-import api from "./../axios/api.js";
+import axios from "axios";
 
 export default {
   name: "Enter",
@@ -121,7 +125,7 @@ export default {
       contain: "",
       tableData: [],
       multipleSelection: [],
-      showAdd:false
+      centerDialogVisible: false
     };
   },
   mounted() {
@@ -142,10 +146,23 @@ export default {
       this.multipleSelection = val;
     },
     getdata() {
-      api.mockdata("/data/index").then(res => {
-        console.log(res);
-        this.tableData = res.list;
-      });
+      axios
+        .post("/data/index")
+        .then(res => {
+          this.tableData = res.data.list;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    showDialog() {
+      this.centerDialogVisible = true;
+    },
+    updateVisible(data) {
+      this.centerDialogVisible = data;
+    },
+    acceptData(data) {
+      console.log(data);
     }
   }
 };

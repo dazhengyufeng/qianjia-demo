@@ -8,7 +8,7 @@ export default new Router({
     {
       path: '/',
       name: 'DataList',
-      component:() => import('@/views/Enter')
+      component: () => import('@/views/Enter')
     }
   ]
 })

@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
+  <div class="Dialog">
     <el-dialog title="新增" :visible.sync="centerDialogVisible" width="30%">
       <div class="main">
         <el-form
@@ -41,10 +40,11 @@
 <script>
 export default {
   name: "addMember",
-  props:[showAdd],
+  props: {
+    centerDialogVisible: false
+  },
   data() {
     return {
-      centerDialogVisible: false,
       ruleForm: {
         name: "",
         region: "",
@@ -62,6 +62,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.centerDialogVisible = false;
+          this.$emit("senData", this.ruleForm);
         } else {
           console.log("error submit!!");
           return false;
@@ -69,9 +70,9 @@ export default {
       });
     }
   },
-  watch:{
-    centerDialogVisible(){
-      this.$emit("update:isShow",false)
+  watch: {
+    centerDialogVisible() {
+      this.$emit("update", this.centerDialogVisible);
     }
   }
 };
@@ -99,5 +100,8 @@ export default {
 .el-date-editor >>> .el-range-separator {
   line-height: 20px;
   color: #c0c4cc;
+}
+.Dialog >>> .el-dialog__footer {
+  text-align: center;
 }
 </style>
