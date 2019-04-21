@@ -104,4 +104,18 @@ export default {
 .Dialog >>> .el-dialog__footer {
   text-align: center;
 }
+.main >>> .el-form-item__content {
+  margin-left: 0px !important;
+}
+.main >>> .el-form-item {
+  display: flex;
+  align-items: center;
+}
+.main >>> .el-form-item {
+  line-height: 0px;
+}
+.main >>> .el-form-item__label {
+  padding: 0;
+  line-height: 22px;
+}
 </style>

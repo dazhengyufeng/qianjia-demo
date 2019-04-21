@@ -6,13 +6,15 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
-<style>
-body{
-  margin: 0;
-  padding: 0;
+<style lang="scss">
+$margin: 100;
+$padding: 100;
+body {
+  margin: $margin;
+  padding: $padding;
 }
 </style>

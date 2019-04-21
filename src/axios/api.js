@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.timeout = 60000
+axios.defaults.baseURL = 'https://easy-mock.com/mock/5cbc207ca6f62553a9e8b03b/example'
 
 // 请求拦截器
 axios.interceptors.request.use(function(config) {
@@ -15,21 +16,5 @@ axios.interceptors.response.use(function(response) {
   return Promise.reject(error);
 })
 
-// 封装axios的post请求
-export function fetch(url, params) {
-  return new Promise((resolve, reject) => {
-    axios.post(url, params)
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        reject(error);
-      })
-  })
-}
+export default axios
 
-export default {
-  mockdata(url, params) {
-    return fetch(url, params);
-  }
-}

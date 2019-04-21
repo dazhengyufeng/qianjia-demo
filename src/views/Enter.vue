@@ -34,16 +34,16 @@
               </div>
               <el-input v-model="contain" placeholder="请输入内容"></el-input>
             </div>
-            <el-button type="success">查询</el-button>
-            <el-button>清空</el-button>
+            <el-button type="success" @click="getdata">查询</el-button>
+            <el-button @click="emptySearch">清空</el-button>
           </div>
           <el-button type="success" @click="showDialog">新增</el-button>
         </div>
         <!-- 表格上面部分 -->
         <div class="table-handle">
           <div class="table-handle-left">
-            <span style="margin-right:10px">共2019条</span>
-            <span style="margin-right:10px">已选：1234</span>
+            <span style="margin-right:10px">共{{tableData.length}}条</span>
+            <span style="margin-right:10px">已选：{{multipleSelection.length}}</span>
             <span style="margin-right:10px">|</span>
             <span>
               <el-button type="danger" plain>批量删除</el-button>
@@ -77,11 +77,11 @@
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
                 <span class="change-btn">
-                  <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
+                  <el-button @click="updateRow(scope.row)" type="text" size="small">修改</el-button>
                 </span>
                 <span class="line-btn">|</span>
                 <span class="delect-btn">
-                  <el-button type="text" size="small">删除</el-button>
+                  <el-button type="text" size="small" @click="delectMember(scope.row)">删除</el-button>
                 </span>
               </template>
             </el-table-column>
@@ -95,10 +95,12 @@
             :page-sizes="[100, 200, 300, 400]"
             :page-size="100"
             :total="1000"
+            @current-change="getdata"
           ></el-pagination>
         </div>
       </div>
     </div>
+    <!-- 弹窗子组件 -->
     <addMember
       :centerDialogVisible="centerDialogVisible"
       @update="updateVisible"
@@ -110,7 +112,6 @@
 <script>
 import theHeader from "../components/Header";
 import addMember from "../components/AddMember";
-import axios from "axios";
 
 export default {
   name: "Enter",
@@ -132,6 +133,7 @@ export default {
     this.getdata();
   },
   methods: {
+    //设置表头颜色
     getRowClass({ row, column, rowIndex, columnIndex }) {
       if (rowIndex === 0) {
         return "background:#eee;height:40px;font-size:12px;color:black；";
@@ -139,30 +141,55 @@ export default {
         return "";
       }
     },
-    handleClick(row) {
+    //修改
+    updateRow(row) {
       console.log(row);
     },
+    //全选
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    getdata() {
-      axios
-        .post("/data/index")
+    //获取列表数据
+    getdata(val) {
+      console.log(val);
+      let address = "/data/index?";
+      if (this.name !== "") {
+        address = address + "name=" + this.name;
+      }
+      if (this.contain !== "") {
+        address = address + "&&contain=" + this.contain;
+      }
+      this.$axios
+        .get(address)
         .then(res => {
-          this.tableData = res.data.list;
+          this.tableData = res.data.data.list;
         })
         .catch(error => {
           console.log(error);
         });
     },
+    //显示弹窗
     showDialog() {
       this.centerDialogVisible = true;
     },
+    //更新弹窗状态
     updateVisible(data) {
       this.centerDialogVisible = data;
     },
+    //接受弹窗子组件返回的数据
     acceptData(data) {
       console.log(data);
+    },
+    //删除成员
+    delectMember(row) {
+      console.log(row);
+    },
+    //清空筛选条件
+    emptySearch() {
+      this.date = "";
+      this.contain = "";
+      this.name = "";
+      this.getdata()
     }
   }
 };
@@ -241,6 +268,9 @@ export default {
 .delect-btn >>> .el-button--text {
   color: red;
 }
+.table {
+  cursor: pointer;
+}
 .table-handle {
   width: 100%;
   height: 50px;
@@ -262,6 +292,7 @@ export default {
   width: 18px;
   height: 18px;
   margin-right: 20px;
+  cursor: pointer;
 }
 .footer {
   height: 85px;
@@ -272,5 +303,8 @@ export default {
 }
 .el-date-editor >>> .el-range__close-icon {
   line-height: 22px;
+}
+.table >>> .el-table tbody tr:hover > td {
+  background-color: #ffffe0;
 }
 </style>
