@@ -12,15 +12,15 @@
           <el-form-item label="人员" prop="name">
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
-          <el-form-item label="内容" prop="region">
-            <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-              <el-option label="内容一" value="shanghai"></el-option>
-              <el-option label="内容二" value="beijing"></el-option>
+          <el-form-item label="内容" prop="contain">
+            <el-select v-model="ruleForm.contain" placeholder="请选择活动区域">
+              <el-option label="内容一" value="内容一"></el-option>
+              <el-option label="内容二" value="内容二"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="日期" required prop="date">
+          <el-form-item label="日期" prop="birthday">
             <el-date-picker
-              v-model="ruleForm.date"
+              v-model="ruleForm.birthday"
               range-separator="-"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
@@ -38,31 +38,37 @@
 </template>
 
 <script>
+import {verifyForm} from '../../assets/js/require.js'
+let ruleObj = new verifyForm
+
 export default {
   name: "addMember",
   props: {
-    centerDialogVisible: false
+    centerDialogVisible: false,
+    ruleForm: {
+      name: "",
+      contain: "",
+      birthday: ""
+    }
   },
   data() {
     return {
-      ruleForm: {
-        name: "",
-        region: "",
-        date: ""
-      },
-      rules: {
-        name: [{ required: true, trigger: "blur" }],
-        region: [{ required: true, trigger: "change" }],
-        date: [{ required: true, trigger: "blur" }]
-      }
+      //表单验证规则
+      rules: ruleObj.rules
     };
   },
   methods: {
+    //提交表单,把数据传给父组件
     submitForm(formName) {
+      console.log(this.ruleForm);
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.centerDialogVisible = false;
           this.$emit("senData", this.ruleForm);
+          this.$message({
+            message: "操作成功",
+            type: "success"
+          });
         } else {
           console.log("error submit!!");
           return false;
@@ -70,6 +76,7 @@ export default {
       });
     }
   },
+  //监听显示和隐藏
   watch: {
     centerDialogVisible() {
       this.$emit("update", this.centerDialogVisible);
@@ -80,7 +87,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 250px;
+  width: 275px;
   height: 125px;
   margin: auto;
 }
@@ -89,7 +96,7 @@ export default {
 }
 .main >>> .el-input__inner {
   height: 26px;
-  width: 200px;
+  width: 225px;
 }
 .main >>> .el-form-item {
   margin: 0;
@@ -118,4 +125,11 @@ export default {
   padding: 0;
   line-height: 22px;
 }
+.main >>> .el-date-editor .el-range__close-icon {
+  line-height: 20px;
+}
+.main >>> .el-form-item__error {
+  top: 73%;
+}
+
 </style>
