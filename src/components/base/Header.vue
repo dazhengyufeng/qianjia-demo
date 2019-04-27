@@ -35,7 +35,7 @@ import { mapState } from 'vuex'
 export default {
   name: "Header",
   computed: {
-    ...mapState('store',[
+    ...mapState('enter',[
     "information",
     "document"
     ])

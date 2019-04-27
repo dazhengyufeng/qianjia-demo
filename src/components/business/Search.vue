@@ -32,13 +32,16 @@
           <el-input v-model="contain" placeholder="请输入内容" size="mini"></el-input>
         </div>
         <el-button type="success" @click="searchData">查询</el-button>
-        <el-button @click="emptySearch">清空</el-button>
+        <el-button @click="emptyData">清空</el-button>
       </div>
+      <el-button type="success" @click="showDialog">新增</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "Search",
   data() {
@@ -52,13 +55,6 @@ export default {
     };
   },
   methods: {
-    //   清空按钮事件
-    emptySearch() {
-      this.date = "";
-      this.contain = "";
-      this.name = "";
-      this.$emit("emptySearch");
-    },
     //  搜索按钮事件
     searchData() {
       let secrchData = {
@@ -67,6 +63,22 @@ export default {
         contain: this.contain
       };
       this.$emit("searchData", secrchData);
+    },
+    //  清空按钮事件
+    emptyData() {
+      this.date = "";
+      this.name = "";
+      this.contain = "";
+      let secrchData = {
+        date: this.date,
+        name: this.name,
+        contain: this.contain
+      };
+      this.$emit("searchData", secrchData);
+    },
+    //  新增按钮事件
+    showDialog() {
+      this.$emit("showDialog");
     }
   }
 };

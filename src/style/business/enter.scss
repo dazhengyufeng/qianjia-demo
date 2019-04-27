@@ -5,6 +5,7 @@
 .container {
   background-color: #f8f8f8;
   width: 100%;
+  min-width: 1840px;
 }
 .search {
   width: 100%;
@@ -31,11 +32,11 @@
   color: #c0c4cc;
   margin: 0 5px 0 5px;
 }
-.change-btn >>> .el-button--text {
-  color: orange;
+.change-btn .el-button--text {
+  color: orange!important;
 }
-.delect-btn >>> .el-button--text {
-  color: red;
+.delect-btn .el-button--text {
+  color: red!important;
 }
 .table {
   cursor: pointer;
@@ -70,6 +71,12 @@
   justify-content: flex-end;
   align-items: center;
 }
+.footer .el-pagination .el-select .el-input .el-input__inner{
+  width: 100px!important;
+}
+.footer .el-pagination .el-select .el-input{
+  margin: 0!important;
+}
 .main >>> .el-table__body tr:hover > td {
   background-color: #ffffe0 !important;
 }
@@ -81,7 +88,7 @@
   background-color: #afeeee !important;
   /* color: #f19944; */ /* 设置文字颜色，可以选择不设置 */
 }
-.table >>> .el-table td,
+.table .el-table td,
 .el-table th {
   padding: 0px;
   font-size: 12px;
@@ -90,5 +97,8 @@
 .el-table th div,
 .el-table--border td:first-child .cell,
 .el-table--border th:first-child .cell {
+  padding: 0px;
+}
+.table >>> .el-table--border th, .el-table--border td{
   padding: 0px;
 }
