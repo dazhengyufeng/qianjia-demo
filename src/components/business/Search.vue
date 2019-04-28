@@ -9,7 +9,7 @@
             <span>期</span>
           </div>
           <el-date-picker
-            v-model="date"
+            v-model="contdate"
             range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -29,12 +29,11 @@
             <span>内</span>
             <span>容</span>
           </div>
-          <el-input v-model="contain" placeholder="请输入内容" size="mini"></el-input>
+          <el-input v-model="content" placeholder="请输入内容" size="mini"></el-input>
         </div>
         <el-button type="success" @click="searchData">查询</el-button>
         <el-button @click="emptyData">清空</el-button>
       </div>
-      <el-button type="success" @click="showDialog">新增</el-button>
     </div>
   </div>
 </template>
@@ -47,39 +46,35 @@ export default {
   data() {
     return {
       //  时间
-      date: "",
+      contdate: "",
       //  姓名
       name: "",
       //  内容
-      contain: ""
+      content: ""
     };
   },
   methods: {
     //  搜索按钮事件
     searchData() {
       let secrchData = {
-        date: this.date,
+        contdate: this.contdate,
         name: this.name,
-        contain: this.contain
+        content: this.content
       };
       this.$emit("searchData", secrchData);
     },
     //  清空按钮事件
     emptyData() {
-      this.date = "";
+      this.contdate = "";
       this.name = "";
-      this.contain = "";
+      this.content = "";
       let secrchData = {
-        date: this.date,
+        contdate: this.contdate,
         name: this.name,
-        contain: this.contain
+        content: this.content
       };
       this.$emit("searchData", secrchData);
     },
-    //  新增按钮事件
-    showDialog() {
-      this.$emit("showDialog");
-    }
   }
 };
 </script>

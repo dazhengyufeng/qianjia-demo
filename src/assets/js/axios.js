@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.timeout = 60000
-axios.defaults.baseURL = 'https://easy-mock.com/mock/5cbc207ca6f62553a9e8b03b/example'
+axios.defaults.baseURL = 'http://192.168.10.8:9090'
 
 // 请求拦截器
 axios.interceptors.request.use(function (config) {

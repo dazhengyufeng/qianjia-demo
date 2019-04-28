@@ -11,12 +11,12 @@
         <el-form-item label="人员" prop="name">
           <el-input v-model="ruleForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="内容" prop="contain">
-          <el-input v-model="ruleForm.contain"></el-input>
+        <el-form-item label="内容" prop="content">
+          <el-input v-model="ruleForm.content"></el-input>
         </el-form-item>
-        <el-form-item label="日期" prop="date">
+        <el-form-item label="日期" prop="contdate">
           <el-date-picker
-            v-model="ruleForm.date"
+            v-model="ruleForm.contdate"
             range-separator="-"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
@@ -40,9 +40,6 @@ export default {
   name: "addMember",
   props: {
     ruleForm: {
-      name: "",
-      contain: "",
-      date: ""
     }
   },
   data() {
@@ -54,7 +51,6 @@ export default {
   methods: {
     //提交表单,把数据传给父组件
       submitForm(formName) {
-      console.log(this.ruleForm);
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.centerDialogVisible = false;

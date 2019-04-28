@@ -38,9 +38,8 @@
         <el-table-column
           v-for="(item, index) in tableHeader"
           :key="index"
-          :prop="item.prop"
-          :width="item.width"
-          :label="item.label"
+          :prop="item.value"
+          :label="item.name"
         ></el-table-column>
         <el-table-column label="操作" width="139">
           <template slot-scope="scope">
@@ -80,7 +79,8 @@ export default {
   methods: {
     //  删除成员按钮
     delectMember(row) {
-      this.$emit("delectMember", row);
+      let data = { ids: [row.id] };
+      this.$emit("delectMember", data);
     },
     //  修改按钮
     updateRow(row) {
@@ -88,26 +88,12 @@ export default {
     },
     //  批量删除按钮
     batchDelect() {
-      this.$confirm("是否确认进行批量删除操作", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          let rowId = this.multipleSelection.map(item => item.id);
-          this.$emit("batchDelect", rowId);
-          this.canDelect = true;
-          this.$message({
-            type: "success",
-            message: "批量删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消批量删除"
-          });
-        });
+      //  批量删除的id
+      let rowId = this.multipleSelection.map(item => item.id);
+      //  处理成接口需要的参数形式
+      let data = { ids: [rowId] };
+      this.$emit("batchDelect", data);
+      this.canDelect = true;
     },
     //  全选
     handleSelectionChange(val) {
